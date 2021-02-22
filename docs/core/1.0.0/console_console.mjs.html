@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: console/console.mjs</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: console/console.mjs</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Redirects console output to an &amp;lt;ul&amp;gt; element
+ * @namespace
+ */
+var ConsoleLogHTML = (function (original, methods, console, Object, TYPE_UNDEFINED, TYPE_BOOLEAN, INSTANCE_OBJECT_OBJECT) {
+  'use strict';
+  for (var i = 0; i &lt; methods.length; i++) {
+    if (TYPE_UNDEFINED !== typeof console[methods[i]]) {
+      original[methods[i]] = console[methods[i]];
+    }
+  }
+
+  var originalSkipHtml = console.skipHtml,
+      originalKeys = Object.keys(original),
+      originalClear = TYPE_UNDEFINED !== typeof console.clear ? console.clear : false,
+      jQueryIsUp = typeof jQuery !== TYPE_UNDEFINED ? jQuery : false,
+      extend = function () {
+        var out = {},
+            i = 0,
+            j, keys;
+
+        for (; i &lt; arguments.length; i++) {
+          keys = Object.keys(arguments[i]);
+          for (j = 0; j &lt; keys.length; j++) {
+            out[keys[j]] = arguments[i][keys[j]];
+          }
+        }
+
+        return out;
+      },
+      register = function (method, target, options, includeTimestamp, logToConsole, appendAtBottom) {
+
+        console.skipHtml[method] = function () {
+          original[method].apply(console, arguments);
+        };
+
+        console[method] = function () {
+          var finalMsg, msgPart, i, li;
+
+          finalMsg = "";
+          for (i = 0; i &lt; arguments.length; i++) {
+            msgPart = arguments[i] + ""; // "safe toString()" (works with null &amp; undefined)
+            if (msgPart === INSTANCE_OBJECT_OBJECT) {
+              try {
+                // Prefix with "Object" like in Firefox-, Chrome-, and node.js-output
+                msgPart = "Object " + JSON.stringify(arguments[i]);
+              } catch (e) {
+
+              }
+            }
+
+            finalMsg += (i > 0 ? " " : "") + msgPart;
+          }
+
+          finalMsg = (includeTimestamp ? "[" + (new Date()).toLocaleTimeString() + "] " : "") + finalMsg;
+          li = document.createElement("li");
+          li.setAttribute("data-level", method);
+          li.innerText = finalMsg;
+          if (options[method]) {
+            li.setAttribute("class", options[method]);
+          }
+
+          if (appendAtBottom){
+            target.appendChild(li);
+          } else {
+            target.insertBefore(li, target.firstChild);
+          }
+
+          if (logToConsole) {
+            console.skipHtml[method].apply(console, arguments);
+          }
+        };
+      };
+
+  return {
+    /**
+     * Default CSS classes
+     * @type Object
+     * @memberof ConsoleLogHTML
+     * @prop {?string} error=text-danger The default CSS class for error messages
+     * @prop {?string} warn=text-warning The default CSS class for warning messages
+     * @prop {?string} info=text-success The default CSS class for info messages
+     * @prop {?string} debug=text-info The default CSS class for debug messages
+     * @prop {?string} log=null The default CSS class for log messages
+     */
+    DEFAULTS: {
+      error: "text-danger",
+      warn: "text-warning",
+      info: "text-success",
+      debug: "text-info",
+      log: ""
+    },
+    /**
+     * Disconnect our console overrides, reverting to the original state
+     * @memberof ConsoleLogHTML
+     */
+    disconnect: function () {
+      console.skipHtml = originalSkipHtml;
+      for (var i = 0; i &lt; originalKeys.length; i++) {
+        console[originalKeys[i]] = original[originalKeys[i]];
+      }
+      if (false !== originalClear) {
+        console.clear = originalClear;
+      }
+    },
+    /**
+     * Overwrite the original console.* methods and start outputting to screen
+     * @memberof ConsoleLogHTML
+     * @param {$|jQuery|HTMLUListElement} target The target &amp;lt;ul&amp;gt; element to output to. Can can either be a
+     * jQuery or vanilla JS HTMLUListElement.
+     * @param {Object} [options=ConsoleLogHTML.DEFAULTS] CSS class options. See {@link ConsoleLogHTML.DEFAULTS} for
+     * default values.
+     * @param {boolean} [includeTimestamp=true] Whether to include the log message timestamp in HTML
+     * @param {boolean} [logToConsole=true] Whether to continue logging to the console as well as HTML.
+     * @param {boolean} [appendAtBottom=false] Whether to append the log messages at the end of the ul-list
+     * @throws {Error} If target is not an &amp;lt;ul&amp;gt; element
+     */
+    connect: function (target, options, includeTimestamp, logToConsole, appendAtBottom) {
+      if (jQueryIsUp &amp;&amp; target instanceof jQueryIsUp) {
+        target = target[0];
+      }
+      if (typeof logToConsole !== TYPE_BOOLEAN) {
+        logToConsole = true;
+      }
+      if (typeof includeTimestamp !== TYPE_BOOLEAN) {
+        includeTimestamp = true;
+      }
+      if (!(target instanceof HTMLUListElement)) {
+        throw new Error("The target must be a HTML &lt;ul> element");
+      } else {
+        options = extend(ConsoleLogHTML.DEFAULTS, options || {});
+
+        console.skipHtml = {};
+        for (var i = 0; i &lt; originalKeys.length; i++) {
+          register(originalKeys[i], target, options, includeTimestamp, logToConsole, appendAtBottom);
+        }
+
+        if (false !== originalClear) {
+          console.clear = function () {
+            target.innerText = "";
+            originalClear.apply(console);
+          };
+        }
+      }
+    }
+  };
+})({}, ["log", "debug", "info", "warn", "error"], console, Object, "undefined", "boolean", '[object Object]');
+
+export default ConsoleLogHTML
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="ConsoleLogHTML.html">ConsoleLogHTML</a></li></ul><h3>Classes</h3><ul><li><a href="-_anonymous_-FS.createLazyFile-LazyUint8Array.html">LazyUint8Array</a></li><li><a href="HistoryRouter.html">HistoryRouter</a></li><li><a href="Middleware.html">Middleware</a></li><li><a href="MobileDetect.html">MobileDetect</a></li><li><a href="Route.html">Route</a></li></ul><h3>Global</h3><ul><li><a href="global.html#has">has</a></li><li><a href="global.html#isEmpty">isEmpty</a></li><li><a href="global.html#object">object</a></li><li><a href="global.html#toBytes">toBytes</a></li><li><a href="global.html#toString">toString</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Mon Feb 22 2021 22:41:07 GMT+0300 (Moscow Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
