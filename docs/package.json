@@ -1,0 +1,19 @@
+{
+  "name": "main",
+  "version": "0.0.1",
+  "description": "main",
+  "main": "index.js",
+  "authors": {
+    "name": "Sergey",
+    "email": "s.zababurin.v@gmail.com"
+  },
+  "repository": "https://github.com/zababurinsv/index.git/main",
+  "scripts": {
+    "dev": "vuepress dev src",
+    "build": "vuepress build src"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "vuepress": "^1.5.3"
+  }
+}
