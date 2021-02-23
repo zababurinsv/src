@@ -3,4 +3,4 @@
 ---
 [Документация][vue]
 
-[vue]:https://zababurinsv.github.io/index/index.html
+[vue]:https://zababurinsv.github.io/vuepress/
