@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: router/validate.mjs</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,36 +17,52 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: router/validate.mjs</h1>
 
     
 
 
 
     
-
-
-    <h3> </h3>
-
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
     <section>
-        <article><h1 id="index">index</h1></article>
+        <article>
+            <pre class="prettyprint source linenums"><code>import url from 'url-composer'
+import validateFromMiddlewares from './validateFromMiddlewares'
+
+/**
+ * Blocking
+ *
+ * @param {Object} history
+ * @param {Array} routes
+ * @param {Array} middlewares
+ * @param {Location} location
+ * @param {Boolean} hash
+ *
+ * @return {Boolean}
+ */
+export default (history, routes, middlewares, location, hash) => {
+  const path = `${location.pathname}${location.search}${location.hash}`
+  const to = location
+  const from = history.location
+
+  for (let i = 0; i &lt; routes.length; i++) {
+    if (routes[i].validate(path, hash)) {
+      let response = validateFromMiddlewares(middlewares, from, to)
+      if ((routes[i].middlewares.length > 0) &amp;&amp; response) {
+        response = validateFromMiddlewares(routes[i].middlewares, from, to, response)
+      }
+      if (response) {
+        const params = url.parse({ path, definition: routes[i].path, object: true })
+        return routes[i].run(from, to, params, response)
+      }
+      return false
+    }
+  }
+  return true
+}
+</code></pre>
+        </article>
     </section>
-
-
 
 
 

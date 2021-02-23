@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: router/Route.mjs</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,36 +17,74 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: router/Route.mjs</h1>
 
     
 
 
 
     
-
-
-    <h3> </h3>
-
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
     <section>
-        <article><h1 id="index">index</h1></article>
+        <article>
+            <pre class="prettyprint source linenums"><code>import url from 'url-composer'
+
+class Route {
+  /**
+   * Create Route Instance
+   *
+   * @param {String} path
+   * @param {Function} cb
+   * @param {Array} middlewares
+   */
+  constructor (path, cb, middlewares) {
+    /**
+     * @property {String}
+     */
+    this.path = path
+
+    /**
+     * @property {Function}
+     */
+    this.cb = cb
+
+    /**
+     * @property {Array}
+     */
+    this.middlewares = middlewares
+  }
+
+  /**
+   * Run route
+   *
+   * @param {Object} from
+   * @param {Object} to
+   * @param {Object} params
+   * @param {*} response
+   */
+  run (from, to, params, response) {
+    this.cb({ from, to, params, response })
+  }
+
+  /**
+   * Validate url path
+   *
+   * @param {String} path
+   * @param {String} hash
+   *
+   * @return {Boolean}
+   */
+  validate (path, hash) {
+    return url.test(hash
+      ? { path: `/#/${this.path}`, url: `/#/${path}` }
+      : { path: this.path, url: path }
+    )
+  }
+}
+
+export default Route
+</code></pre>
+        </article>
     </section>
-
-
 
 
 

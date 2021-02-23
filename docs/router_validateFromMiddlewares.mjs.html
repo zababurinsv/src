@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: router/validateFromMiddlewares.mjs</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,36 +17,36 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: router/validateFromMiddlewares.mjs</h1>
 
     
 
 
 
     
-
-
-    <h3> </h3>
-
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
     <section>
-        <article><h1 id="index">index</h1></article>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Validate from middlewares
+ *
+ * @param {Array} middlewares
+ * @param {Object} from
+ * @param {Object} to
+ * @param {*} response
+ */
+export default (middlewares, from, to, response = null) => {
+  if (middlewares.length > 0) {
+    for (let i = 0; i &lt; middlewares.length; i++) {
+      response = middlewares[i].run(from, to, response)
+      if (!response) return false
+    }
+    return response
+  }
+  return true
+}
+</code></pre>
+        </article>
     </section>
-
-
 
 
 
