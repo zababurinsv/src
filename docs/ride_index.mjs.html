@@ -27,9 +27,7 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>import hjson from '/static/html/components/component_modules/bundle/hjson/hjson.index.mjs'
-import config from '/static/html/components/component_modules/account/com.waves-ide_config.mjs'
 import Waves from '/static/html/components/component_modules/waves/index.mjs'
-import task from '/static/html/components/component_modules/heap/index.mjs'
 import Axios from '/static/html/components/component_modules/axios/axios.mjs'
 import core from '/static/html/components/component_modules/bundle/ride/index.mjs'
 import go from '/static/html/components/component_modules/ride/func/go/index.mjs'
@@ -40,6 +38,10 @@ let waves = new Waves
  * Язык raid
  * @namespace RAID
  */
+
+/**
+ * @memberof Utils
+ */
 let params = (items) => {
  let p =``
   for(let item of items) {
@@ -48,10 +50,12 @@ p = p + `* ${item}
   }
   return p
 }
-
+/**
+ * @memberof Utils
+ */
 let Contract = {
   verify: (v,p,c,s,r) => {
-    return new Promise( async (resolve, reject) =>{
+    return new Promise( async (resolve) =>{
       try {
 
         resolve({
@@ -77,16 +81,23 @@ let Contract = {
     })
   }
 }
-export default {
-  "author": "Zababurin Sergey",
-  "license": "GPL-3.0-or-later",
-  "bugs": {
-    "url": "https://github.com/zababurinsv/template/issues",
-    "mail": "s.zababurin.v@gmail.com"
-  }
-}
+
+/**
+ * Hook to capture key down events.
+ *
+ * @module RAID
+ * @function Core
+ *
+ * @example
+ * // Calls the `hide` function when the ESC key is pressed down
+ * useKeyDown(27, hide)
+ *
+ * @param {number} keyCode to capture
+ * @param {Function} onKey function to call when the key is pressed down
+ * @exports module:RAID
+ */
 export let Core = (()=>  {
-  return new Promise(function (resolve, reject) {
+  return new Promise(function (resolve) {
   axios.get('/static/html/components/component_modules/ride/doc/v4/funcs/index.hjson')
     .then(async (data) => {
       let self_contract = await axios.get(`${location.origin}/static/html/components/crypto-dex/external/ride/index.ride`)
@@ -268,7 +279,16 @@ md +`
       // always executed
     });
 })
-})()</code></pre>
+})()
+
+export default {
+  "author": "Zababurin Sergey",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/zababurinsv/template/issues",
+    "mail": "s.zababurin.v@gmail.com"
+  }
+}</code></pre>
         </article>
     </section>
 
@@ -278,13 +298,13 @@ md +`
 </div>
 
 <nav>
-    <h2><a href="/index/">Home</a></h2><h3>Namespaces</h3><ul><li><a href="DEX.html">DEX</a></li><li><a href="LTD.html">LTD</a></li><li><a href="RAID.html">RAID</a></li></ul><h3>Classes</h3><ul><li><a href="-_anonymous_-FS.createLazyFile-LazyUint8Array.html">LazyUint8Array</a></li><li><a href="HistoryRouter.html">HistoryRouter</a></li><li><a href="Middleware.html">Middleware</a></li><li><a href="MobileDetect.html">MobileDetect</a></li><li><a href="Route.html">Route</a></li></ul><h3>Global</h3><ul><li><a href="global.html#has">has</a></li><li><a href="global.html#isEmpty">isEmpty</a></li><li><a href="global.html#object">object</a></li><li><a href="global.html#toString">toString</a></li></ul>
+    <h2><a href="/index/">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Core.html">Core</a></li></ul><h3>Namespaces</h3><ul><li><a href="DEX.html">DEX</a></li><li><a href="LTD.html">LTD</a></li><li><a href="RAID.html">RAID</a></li><li><a href="Utils.html">Utils</a></li></ul><h3>Classes</h3><ul><li><a href="-_anonymous_-FS.createLazyFile-LazyUint8Array.html">LazyUint8Array</a></li><li><a href="HistoryRouter.html">HistoryRouter</a></li><li><a href="Middleware.html">Middleware</a></li><li><a href="MobileDetect.html">MobileDetect</a></li><li><a href="Route.html">Route</a></li></ul><h3>Global</h3><ul><li><a href="global.html#has">has</a></li><li><a href="global.html#isEmpty">isEmpty</a></li><li><a href="global.html#object">object</a></li><li><a href="global.html#toString">toString</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Zababurin Sergey 3.6.6</a> on Wed Feb 24 2021 16:24:38 GMT+0300 (Moscow Standard Time)
+    Zababurin Sergey 3.6.6</a> on Wed Feb 24 2021 17:43:59 GMT+0300 (Moscow Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

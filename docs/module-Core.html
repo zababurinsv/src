@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Namespace: DEX</title>
+    <title>JSDoc: Module: Core</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Namespace: DEX</h1>
+    <h1 class="page-title">Module: Core</h1>
 
     
 
@@ -28,7 +28,8 @@
 
 <header>
     
-        <h2>DEX</h2>
+        
+            
         
     
 </header>
@@ -37,10 +38,96 @@
     <div class="container-overview">
     
         
-            <div class="description"><p>Redirects console output to an <ul> element</p></div>
+            <div class="description"><p>Hook to capture key down events.</p></div>
         
 
         
+            
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>keyCode</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>to capture</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>onKey</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>function to call when the key is pressed down</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
 
 
 <dl class="details">
@@ -72,7 +159,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="dex_index.mjs.html">dex/index.mjs</a>, <a href="dex_index.mjs.html#line13">line 13</a>
+        <a href="ride_index.mjs.html">ride/index.mjs</a>, <a href="ride_index.mjs.html#line57">line 57</a>
     </li></ul></dd>
     
 
@@ -82,6 +169,30 @@
 
     
 </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>// Calls the `hide` function when the ESC key is pressed down
+useKeyDown(27, hide)</code></pre>
+
 
 
         
