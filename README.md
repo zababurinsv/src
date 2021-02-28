@@ -5,4 +5,4 @@
 > А дальше нужно спрашивать конкретно по непонятным вещам
 https://www.npmjs.com/package/docdash
 
-[vue]:https://zababurinsv.github.io/vuepress/
+[vue]:https://zababurinsv.github.io/admin/
