@@ -1,9 +1,3 @@
----
-component: Blogging with VuePress
----
-
-# Words
-
 * Main
     * [Документация][vue]
     * [jsdoc](https://devdocs.io/jsdoc/howto-es2015-modules)
@@ -12,4 +6,3 @@ component: Blogging with VuePress
 https://www.npmjs.com/package/docdash
 
 [vue]:https://zababurinsv.github.io/vuepress/
-
