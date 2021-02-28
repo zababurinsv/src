@@ -3,7 +3,7 @@ component: Blogging with VuePress
 lang: en-US
 ---
 
-# Front Matter 4
+# Front Matter
 
 [Документация][vue]
 > «У меня возник вопрос по поводу одного понятия, которое я встретил у И.О. Фамильева. В книге "Lorem ipsum" И.О. Фамильев пишет: "цитата" [Фамильев 2020: 14].»
