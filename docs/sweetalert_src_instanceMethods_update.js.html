@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>isEmpty.mjs - Documentation</title>
+    <title>sweetalert/src/instanceMethods/update.js - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -32,7 +32,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">isEmpty.mjs</h1>
+    <h1 class="page-title">sweetalert/src/instanceMethods/update.js</h1>
     
 
     
@@ -42,85 +42,47 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>
-/**
- * Has own property.
- *
- * @type {Function}
- */
-
-var has = Object.prototype.hasOwnProperty
+            <pre class="prettyprint source linenums"><code>import * as dom from '../../src/utils/dom/index.js'
+import { warn } from '../../src/utils/utils.js'
+import sweetAlert from '../sweetalert2.js'
+import privateProps from '../privateProps.js'
 
 /**
- * To string.
- *
- * @type {Function}
+ * Updates popup parameters.
  */
+export function update (params) {
+  const popup = dom.getPopup()
+  const innerParams = privateProps.innerParams.get(this)
 
-var toString = Object.prototype.toString
+  if (!popup || dom.hasClass(popup, innerParams.hideClass.popup)) {
+    return warn(`You're trying to update the closed or closing popup, that won't work. Use the update() method in preConfirm parameter or show a new popup.`)
+  }
 
-/**
- * Test whether a value is "empty".
- *
- * @param {Mixed} val
- * @return {Boolean}
- */
+  const validUpdatableParams = {}
 
-function isEmpty(val) {
-    // Null and Undefined...
-    if (val == null) return true
-
-    // Booleans...
-    if ('boolean' == typeof val) return false
-
-    // Numbers...
-    if ('number' == typeof val) return val === 0
-
-    // Strings...
-    if ('string' == typeof val) return val.length === 0
-
-    // Functions...
-    if ('function' == typeof val) return val.length === 0
-
-    // Arrays...
-    if (Array.isArray(val)) return val.length === 0
-
-    // Errors...
-    if (val instanceof Error) return val.message === ''
-
-    // Objects...
-    if (val.toString == toString) {
-        switch (val.toString()) {
-
-            // Maps, Sets, Files and Errors...
-            case '[object File]':
-            case '[object Map]':
-            case '[object Set]': {
-                return val.size === 0
-            }
-
-            // Plain objects...
-            case '[object Object]': {
-                for (var key in val) {
-                    if (has.call(val, key)) return false
-                }
-
-                return true
-            }
-        }
+  // assign valid params from `params` to `defaults`
+  Object.keys(params).forEach(param => {
+    if (sweetAlert.isUpdatableParameter(param)) {
+      validUpdatableParams[param] = params[param]
+    } else {
+      warn(`Invalid parameter to update: "${param}". Updatable params are listed here: https://github.com/sweetalert2/sweetalert2/blob/master/src/utils/params.js`)
     }
+  })
 
-    // Anything else...
-    return false
+  const updatedParams = Object.assign({}, innerParams, validUpdatableParams)
+
+  dom.render(this, updatedParams)
+
+  privateProps.innerParams.set(this, updatedParams)
+  Object.defineProperties(this, {
+    params: {
+      value: Object.assign({}, this.params, params),
+      writable: false,
+      enumerable: true
+    }
+  })
 }
-
-/**
- * Export `isEmpty`.
- *
- * @type {Function}
- */
-
-export default isEmpty</code></pre>
+</code></pre>
         </article>
     </section>
 

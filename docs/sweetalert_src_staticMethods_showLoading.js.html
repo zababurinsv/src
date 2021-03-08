@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>isEmpty.mjs - Documentation</title>
+    <title>sweetalert/src/staticMethods/showLoading.js - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -32,7 +32,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">isEmpty.mjs</h1>
+    <h1 class="page-title">sweetalert/src/staticMethods/showLoading.js</h1>
     
 
     
@@ -42,85 +42,39 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>
-/**
- * Has own property.
- *
- * @type {Function}
- */
-
-var has = Object.prototype.hasOwnProperty
+            <pre class="prettyprint source linenums"><code>import * as dom from '../utils/dom/index.js'
+import Swal from '../sweetalert2.js'
+import { swalClasses } from '../utils/classes.js'
 
 /**
- * To string.
- *
- * @type {Function}
+ * Show spinner instead of Confirm button
  */
+const showLoading = () => {
+  let popup = dom.getPopup()
+  if (!popup) {
+    Swal.fire()
+  }
+  popup = dom.getPopup()
+  const actions = dom.getActions()
+  const confirmButton = dom.getConfirmButton()
+  const loader = dom.getLoader()
 
-var toString = Object.prototype.toString
+  dom.show(actions)
+  dom.hide(confirmButton)
+  dom.addClass([popup, actions], swalClasses.loading)
 
-/**
- * Test whether a value is "empty".
- *
- * @param {Mixed} val
- * @return {Boolean}
- */
+  dom.show(loader)
 
-function isEmpty(val) {
-    // Null and Undefined...
-    if (val == null) return true
-
-    // Booleans...
-    if ('boolean' == typeof val) return false
-
-    // Numbers...
-    if ('number' == typeof val) return val === 0
-
-    // Strings...
-    if ('string' == typeof val) return val.length === 0
-
-    // Functions...
-    if ('function' == typeof val) return val.length === 0
-
-    // Arrays...
-    if (Array.isArray(val)) return val.length === 0
-
-    // Errors...
-    if (val instanceof Error) return val.message === ''
-
-    // Objects...
-    if (val.toString == toString) {
-        switch (val.toString()) {
-
-            // Maps, Sets, Files and Errors...
-            case '[object File]':
-            case '[object Map]':
-            case '[object Set]': {
-                return val.size === 0
-            }
-
-            // Plain objects...
-            case '[object Object]': {
-                for (var key in val) {
-                    if (has.call(val, key)) return false
-                }
-
-                return true
-            }
-        }
-    }
-
-    // Anything else...
-    return false
+  popup.setAttribute('data-loading', true)
+  popup.setAttribute('aria-busy', true)
+  popup.focus()
 }
 
-/**
- * Export `isEmpty`.
- *
- * @type {Function}
- */
-
-export default isEmpty</code></pre>
+export {
+  showLoading,
+  showLoading as enableLoading
+}
+</code></pre>
         </article>
     </section>
 

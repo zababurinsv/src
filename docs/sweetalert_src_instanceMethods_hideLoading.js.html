@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>isEmpty.mjs - Documentation</title>
+    <title>sweetalert/src/instanceMethods/hideLoading.js - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -32,7 +32,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">isEmpty.mjs</h1>
+    <h1 class="page-title">sweetalert/src/instanceMethods/hideLoading.js</h1>
     
 
     
@@ -42,85 +42,39 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>
-/**
- * Has own property.
- *
- * @type {Function}
- */
-
-var has = Object.prototype.hasOwnProperty
+            <pre class="prettyprint source linenums"><code>import * as dom from '../utils/dom/index.js'
+import { swalClasses } from '../utils/classes.js'
+import privateProps from '../privateProps.js'
 
 /**
- * To string.
- *
- * @type {Function}
+ * Enables buttons and hide loader.
  */
-
-var toString = Object.prototype.toString
-
-/**
- * Test whether a value is "empty".
- *
- * @param {Mixed} val
- * @return {Boolean}
- */
-
-function isEmpty(val) {
-    // Null and Undefined...
-    if (val == null) return true
-
-    // Booleans...
-    if ('boolean' == typeof val) return false
-
-    // Numbers...
-    if ('number' == typeof val) return val === 0
-
-    // Strings...
-    if ('string' == typeof val) return val.length === 0
-
-    // Functions...
-    if ('function' == typeof val) return val.length === 0
-
-    // Arrays...
-    if (Array.isArray(val)) return val.length === 0
-
-    // Errors...
-    if (val instanceof Error) return val.message === ''
-
-    // Objects...
-    if (val.toString == toString) {
-        switch (val.toString()) {
-
-            // Maps, Sets, Files and Errors...
-            case '[object File]':
-            case '[object Map]':
-            case '[object Set]': {
-                return val.size === 0
-            }
-
-            // Plain objects...
-            case '[object Object]': {
-                for (var key in val) {
-                    if (has.call(val, key)) return false
-                }
-
-                return true
-            }
-        }
-    }
-
-    // Anything else...
-    return false
+function hideLoading () {
+  // do nothing if popup is closed
+  const innerParams = privateProps.innerParams.get(this)
+  if (!innerParams) {
+    return
+  }
+  const domCache = privateProps.domCache.get(this)
+  dom.hide(domCache.loader)
+  if (innerParams.showConfirmButton) {
+    dom.show(domCache.confirmButton)
+  } else if (!innerParams.showConfirmButton &amp;&amp; !innerParams.showCancelButton) {
+    dom.hide(domCache.actions)
+  }
+  dom.removeClass([domCache.popup, domCache.actions], swalClasses.loading)
+  domCache.popup.removeAttribute('aria-busy')
+  domCache.popup.removeAttribute('data-loading')
+  domCache.confirmButton.disabled = false
+  domCache.denyButton.disabled = false
+  domCache.cancelButton.disabled = false
 }
 
-/**
- * Export `isEmpty`.
- *
- * @type {Function}
- */
-
-export default isEmpty</code></pre>
+export {
+  hideLoading,
+  hideLoading as disableLoading
+}
+</code></pre>
         </article>
     </section>
 

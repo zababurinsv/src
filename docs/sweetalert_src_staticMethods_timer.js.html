@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>isEmpty.mjs - Documentation</title>
+    <title>sweetalert/src/staticMethods/timer.js - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -32,7 +32,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">isEmpty.mjs</h1>
+    <h1 class="page-title">sweetalert/src/staticMethods/timer.js</h1>
     
 
     
@@ -42,85 +42,70 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>
-/**
- * Has own property.
- *
- * @type {Function}
- */
-
-var has = Object.prototype.hasOwnProperty
+            <pre class="prettyprint source linenums"><code>import { animateTimerProgressBar, stopTimerProgressBar } from '../utils/dom/domUtils.js'
+import globalState from '../globalState.js'
 
 /**
- * To string.
- *
- * @type {Function}
+ * If `timer` parameter is set, returns number of milliseconds of timer remained.
+ * Otherwise, returns undefined.
  */
-
-var toString = Object.prototype.toString
-
-/**
- * Test whether a value is "empty".
- *
- * @param {Mixed} val
- * @return {Boolean}
- */
-
-function isEmpty(val) {
-    // Null and Undefined...
-    if (val == null) return true
-
-    // Booleans...
-    if ('boolean' == typeof val) return false
-
-    // Numbers...
-    if ('number' == typeof val) return val === 0
-
-    // Strings...
-    if ('string' == typeof val) return val.length === 0
-
-    // Functions...
-    if ('function' == typeof val) return val.length === 0
-
-    // Arrays...
-    if (Array.isArray(val)) return val.length === 0
-
-    // Errors...
-    if (val instanceof Error) return val.message === ''
-
-    // Objects...
-    if (val.toString == toString) {
-        switch (val.toString()) {
-
-            // Maps, Sets, Files and Errors...
-            case '[object File]':
-            case '[object Map]':
-            case '[object Set]': {
-                return val.size === 0
-            }
-
-            // Plain objects...
-            case '[object Object]': {
-                for (var key in val) {
-                    if (has.call(val, key)) return false
-                }
-
-                return true
-            }
-        }
-    }
-
-    // Anything else...
-    return false
+export const getTimerLeft = () => {
+  return globalState.timeout &amp;&amp; globalState.timeout.getTimerLeft()
 }
 
 /**
- * Export `isEmpty`.
- *
- * @type {Function}
+ * Stop timer. Returns number of milliseconds of timer remained.
+ * If `timer` parameter isn't set, returns undefined.
  */
+export const stopTimer = () => {
+  if (globalState.timeout) {
+    stopTimerProgressBar()
+    return globalState.timeout.stop()
+  }
+}
 
-export default isEmpty</code></pre>
+/**
+ * Resume timer. Returns number of milliseconds of timer remained.
+ * If `timer` parameter isn't set, returns undefined.
+ */
+export const resumeTimer = () => {
+  if (globalState.timeout) {
+    const remaining = globalState.timeout.start()
+    animateTimerProgressBar(remaining)
+    return remaining
+  }
+}
+
+/**
+ * Resume timer. Returns number of milliseconds of timer remained.
+ * If `timer` parameter isn't set, returns undefined.
+ */
+export const toggleTimer = () => {
+  const timer = globalState.timeout
+  return timer &amp;&amp; (timer.running ? stopTimer() : resumeTimer())
+}
+
+/**
+ * Increase timer. Returns number of milliseconds of an updated timer.
+ * If `timer` parameter isn't set, returns undefined.
+ */
+export const increaseTimer = (n) => {
+  if (globalState.timeout) {
+    const remaining = globalState.timeout.increase(n)
+    animateTimerProgressBar(remaining, true)
+    return remaining
+  }
+}
+
+/**
+ * Check if timer is running. Returns true if timer is running
+ * or false if timer is paused or stopped.
+ * If `timer` parameter isn't set, returns undefined
+ */
+export const isTimerRunning = () => {
+  return globalState.timeout &amp;&amp; globalState.timeout.isRunning()
+}
+</code></pre>
         </article>
     </section>
 

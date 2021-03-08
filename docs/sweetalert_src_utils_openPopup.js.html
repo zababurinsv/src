@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>isEmpty.mjs - Documentation</title>
+    <title>sweetalert/src/utils/openPopup.js - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -32,7 +32,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">isEmpty.mjs</h1>
+    <h1 class="page-title">sweetalert/src/utils/openPopup.js</h1>
     
 
     
@@ -42,85 +42,93 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>
-/**
- * Has own property.
- *
- * @type {Function}
- */
-
-var has = Object.prototype.hasOwnProperty
-
-/**
- * To string.
- *
- * @type {Function}
- */
-
-var toString = Object.prototype.toString
+            <pre class="prettyprint source linenums"><code>import * as dom from './dom/index.js'
+import { swalClasses } from './classes.js'
+import { fixScrollbar } from './scrollbarFix.js'
+import { iOSfix } from './iosFix.js'
+import { IEfix } from './ieFix.js'
+import { setAriaHidden } from './aria.js'
+import globalState from '../globalState.js'
 
 /**
- * Test whether a value is "empty".
+ * Open popup, add necessary classes and styles, fix scrollbar
  *
- * @param {Mixed} val
- * @return {Boolean}
+ * @param {Array} params
  */
+export const openPopup = (params) => {
+  const container = dom.getContainer()
+  const popup = dom.getPopup()
 
-function isEmpty(val) {
-    // Null and Undefined...
-    if (val == null) return true
+  if (typeof params.onBeforeOpen === 'function') {
+    params.onBeforeOpen(popup)
+  }
 
-    // Booleans...
-    if ('boolean' == typeof val) return false
+  const bodyStyles = window.getComputedStyle(document.body)
+  const initialBodyOverflow = bodyStyles.overflowY
+  addClasses(container, popup, params)
 
-    // Numbers...
-    if ('number' == typeof val) return val === 0
+  // scrolling is 'hidden' until animation is done, after that 'auto'
+  setScrollingVisibility(container, popup)
 
-    // Strings...
-    if ('string' == typeof val) return val.length === 0
+  if (dom.isModal()) {
+    fixScrollContainer(container, params.scrollbarPadding, initialBodyOverflow)
+    setAriaHidden()
+  }
 
-    // Functions...
-    if ('function' == typeof val) return val.length === 0
-
-    // Arrays...
-    if (Array.isArray(val)) return val.length === 0
-
-    // Errors...
-    if (val instanceof Error) return val.message === ''
-
-    // Objects...
-    if (val.toString == toString) {
-        switch (val.toString()) {
-
-            // Maps, Sets, Files and Errors...
-            case '[object File]':
-            case '[object Map]':
-            case '[object Set]': {
-                return val.size === 0
-            }
-
-            // Plain objects...
-            case '[object Object]': {
-                for (var key in val) {
-                    if (has.call(val, key)) return false
-                }
-
-                return true
-            }
-        }
-    }
-
-    // Anything else...
-    return false
+  if (!dom.isToast() &amp;&amp; !globalState.previousActiveElement) {
+    globalState.previousActiveElement = document.activeElement
+  }
+  if (typeof params.onOpen === 'function') {
+    setTimeout(() => params.onOpen(popup))
+  }
+  dom.removeClass(container, swalClasses['no-transition'])
 }
 
-/**
- * Export `isEmpty`.
- *
- * @type {Function}
- */
+function swalOpenAnimationFinished (event) {
+  const popup = dom.getPopup()
+  if (event.target !== popup) {
+    return
+  }
+  const container = dom.getContainer()
+  popup.removeEventListener(dom.animationEndEvent, swalOpenAnimationFinished)
+  container.style.overflowY = 'auto'
+}
 
-export default isEmpty</code></pre>
+const setScrollingVisibility = (container, popup) => {
+  if (dom.animationEndEvent &amp;&amp; dom.hasCssAnimation(popup)) {
+    container.style.overflowY = 'hidden'
+    popup.addEventListener(dom.animationEndEvent, swalOpenAnimationFinished)
+  } else {
+    container.style.overflowY = 'auto'
+  }
+}
+
+const fixScrollContainer = (container, scrollbarPadding, initialBodyOverflow) => {
+  iOSfix()
+  IEfix()
+
+  if (scrollbarPadding &amp;&amp; initialBodyOverflow !== 'hidden') {
+    fixScrollbar()
+  }
+
+  // sweetalert2/issues/1247
+  setTimeout(() => {
+    container.scrollTop = 0
+  })
+}
+
+const addClasses = (container, popup, params) => {
+  dom.addClass(container, params.showClass.backdrop)
+  dom.show(popup)
+  // Animate popup right after showing it
+  dom.addClass(popup, params.showClass.popup)
+
+  dom.addClass([document.documentElement, document.body], swalClasses.shown)
+  if (params.heightAuto &amp;&amp; params.backdrop &amp;&amp; !params.toast) {
+    dom.addClass([document.documentElement, document.body], swalClasses['height-auto'])
+  }
+}
+</code></pre>
         </article>
     </section>
 

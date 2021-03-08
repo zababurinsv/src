@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>isEmpty.mjs - Documentation</title>
+    <title>sweetalert/src/staticMethods/mixin.js - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -32,7 +32,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">isEmpty.mjs</h1>
+    <h1 class="page-title">sweetalert/src/staticMethods/mixin.js</h1>
     
 
     
@@ -42,85 +42,34 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>
-/**
- * Has own property.
+            <pre class="prettyprint source linenums"><code>/**
+ * Returns an extended version of `Swal` containing `params` as defaults.
+ * Useful for reusing Swal configuration.
  *
- * @type {Function}
- */
-
-var has = Object.prototype.hasOwnProperty
-
-/**
- * To string.
+ * For example:
  *
- * @type {Function}
- */
-
-var toString = Object.prototype.toString
-
-/**
- * Test whether a value is "empty".
+ * Before:
+ * const textPromptOptions = { input: 'text', showCancelButton: true }
+ * const {value: firstName} = await Swal.fire({ ...textPromptOptions, title: 'What is your first name?' })
+ * const {value: lastName} = await Swal.fire({ ...textPromptOptions, title: 'What is your last name?' })
  *
- * @param {Mixed} val
- * @return {Boolean}
+ * After:
+ * const TextPrompt = Swal.mixin({ input: 'text', showCancelButton: true })
+ * const {value: firstName} = await TextPrompt('What is your first name?')
+ * const {value: lastName} = await TextPrompt('What is your last name?')
+ *
+ * @param mixinParams
  */
-
-function isEmpty(val) {
-    // Null and Undefined...
-    if (val == null) return true
-
-    // Booleans...
-    if ('boolean' == typeof val) return false
-
-    // Numbers...
-    if ('number' == typeof val) return val === 0
-
-    // Strings...
-    if ('string' == typeof val) return val.length === 0
-
-    // Functions...
-    if ('function' == typeof val) return val.length === 0
-
-    // Arrays...
-    if (Array.isArray(val)) return val.length === 0
-
-    // Errors...
-    if (val instanceof Error) return val.message === ''
-
-    // Objects...
-    if (val.toString == toString) {
-        switch (val.toString()) {
-
-            // Maps, Sets, Files and Errors...
-            case '[object File]':
-            case '[object Map]':
-            case '[object Set]': {
-                return val.size === 0
-            }
-
-            // Plain objects...
-            case '[object Object]': {
-                for (var key in val) {
-                    if (has.call(val, key)) return false
-                }
-
-                return true
-            }
-        }
+export function mixin (mixinParams) {
+  class MixinSwal extends this {
+    _main (params) {
+      return super._main(Object.assign({}, mixinParams, params))
     }
+  }
 
-    // Anything else...
-    return false
+  return MixinSwal
 }
-
-/**
- * Export `isEmpty`.
- *
- * @type {Function}
- */
-
-export default isEmpty</code></pre>
+</code></pre>
         </article>
     </section>
 
