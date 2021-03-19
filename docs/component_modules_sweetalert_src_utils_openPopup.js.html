@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>RAID - Documentation</title>
+    <title>component_modules/sweetalert/src/utils/openPopup.js - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -32,393 +32,105 @@
 
 <div id="main">
     
-    <h1 class="page-title">RAID</h1>
-    
-
-    
-
-
-
-
-<section>
-
-<header>
-    
-        <h2>
-        RAID
-        </h2>
-        
-    
-</header>
-
-<article>
-    
-        <div class="container-overview">
-        
-            
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="component_modules_ride_index.mjs.html">component_modules/ride/index.mjs</a>, <a href="component_modules_ride_index.mjs.html#line9">line 9</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-            
-                <div class="description usertext"><p>Язык raid</p></div>
-            
-
-            
-        
-        </div>
-    
-
-    
-
-    
-
-    
-    
-    
-
-     
-
-    
-
-    
-
-    
-        <h3 class="subsection-title">Methods</h3>
-
-        
-            
-
-    
-
-    <h4 class="name" id=".toBytes"><span class="type-signature">(static) </span>toBytes<span class="signature">(s)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="component_modules_ltd_ltd.js.html">component_modules/ltd/ltd.js</a>, <a href="component_modules_ltd_ltd.js.html#line40">line 40</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>s</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    <p>Bytes</p>
-</div>
-
-
-
-    
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id=".toBytes"><span class="type-signature">(static) </span>toBytes<span class="signature">(s)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="component_modules_ltd_ltd.mjs.html">component_modules/ltd/ltd.mjs</a>, <a href="component_modules_ltd_ltd.mjs.html#line40">line 40</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>s</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    <p>Bytes</p>
-</div>
-
-
-
-    
-
-
-
-        
-    
-
-    
-
-    
-</article>
-
-</section>
+    <h1 class="page-title">component_modules/sweetalert/src/utils/openPopup.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import * as dom from './dom/index.js'
+import { swalClasses } from './classes.js'
+import { fixScrollbar } from './scrollbarFix.js'
+import { iOSfix } from './iosFix.js'
+import { IEfix } from './ieFix.js'
+import { setAriaHidden } from './aria.js'
+import globalState from '../globalState.js'
+
+/**
+ * Open popup, add necessary classes and styles, fix scrollbar
+ *
+ * @param {Array} params
+ */
+export const openPopup = (params) => {
+  const container = dom.getContainer()
+  const popup = dom.getPopup()
+
+  if (typeof params.onBeforeOpen === 'function') {
+    params.onBeforeOpen(popup)
+  }
+
+  const bodyStyles = window.getComputedStyle(document.body)
+  const initialBodyOverflow = bodyStyles.overflowY
+  addClasses(container, popup, params)
+
+  // scrolling is 'hidden' until animation is done, after that 'auto'
+  setScrollingVisibility(container, popup)
+
+  if (dom.isModal()) {
+    fixScrollContainer(container, params.scrollbarPadding, initialBodyOverflow)
+    setAriaHidden()
+  }
+
+  if (!dom.isToast() &amp;&amp; !globalState.previousActiveElement) {
+    globalState.previousActiveElement = document.activeElement
+  }
+  if (typeof params.onOpen === 'function') {
+    setTimeout(() => params.onOpen(popup))
+  }
+  dom.removeClass(container, swalClasses['no-transition'])
+}
+
+function swalOpenAnimationFinished (event) {
+  const popup = dom.getPopup()
+  if (event.target !== popup) {
+    return
+  }
+  const container = dom.getContainer()
+  popup.removeEventListener(dom.animationEndEvent, swalOpenAnimationFinished)
+  container.style.overflowY = 'auto'
+}
+
+const setScrollingVisibility = (container, popup) => {
+  if (dom.animationEndEvent &amp;&amp; dom.hasCssAnimation(popup)) {
+    container.style.overflowY = 'hidden'
+    popup.addEventListener(dom.animationEndEvent, swalOpenAnimationFinished)
+  } else {
+    container.style.overflowY = 'auto'
+  }
+}
+
+const fixScrollContainer = (container, scrollbarPadding, initialBodyOverflow) => {
+  iOSfix()
+  IEfix()
+
+  if (scrollbarPadding &amp;&amp; initialBodyOverflow !== 'hidden') {
+    fixScrollbar()
+  }
+
+  // sweetalert2/issues/1247
+  setTimeout(() => {
+    container.scrollTop = 0
+  })
+}
+
+const addClasses = (container, popup, params) => {
+  dom.addClass(container, params.showClass.backdrop)
+  dom.show(popup)
+  // Animate popup right after showing it
+  dom.addClass(popup, params.showClass.popup)
+
+  dom.addClass([document.documentElement, document.body], swalClasses.shown)
+  if (params.heightAuto &amp;&amp; params.backdrop &amp;&amp; !params.toast) {
+    dom.addClass([document.documentElement, document.body], swalClasses['height-auto'])
+  }
+}
+</code></pre>
+        </article>
+    </section>
 
 
 

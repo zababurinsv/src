@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>RAID - Documentation</title>
+    <title>component_modules/router/Route.mjs - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -32,393 +32,75 @@
 
 <div id="main">
     
-    <h1 class="page-title">RAID</h1>
-    
-
-    
-
-
-
-
-<section>
-
-<header>
-    
-        <h2>
-        RAID
-        </h2>
-        
-    
-</header>
-
-<article>
-    
-        <div class="container-overview">
-        
-            
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="component_modules_ride_index.mjs.html">component_modules/ride/index.mjs</a>, <a href="component_modules_ride_index.mjs.html#line9">line 9</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-            
-                <div class="description usertext"><p>Язык raid</p></div>
-            
-
-            
-        
-        </div>
-    
-
-    
-
-    
-
-    
-    
-    
-
-     
-
-    
-
-    
-
-    
-        <h3 class="subsection-title">Methods</h3>
-
-        
-            
-
-    
-
-    <h4 class="name" id=".toBytes"><span class="type-signature">(static) </span>toBytes<span class="signature">(s)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="component_modules_ltd_ltd.js.html">component_modules/ltd/ltd.js</a>, <a href="component_modules_ltd_ltd.js.html#line40">line 40</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>s</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    <p>Bytes</p>
-</div>
-
-
-
-    
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id=".toBytes"><span class="type-signature">(static) </span>toBytes<span class="signature">(s)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="component_modules_ltd_ltd.mjs.html">component_modules/ltd/ltd.mjs</a>, <a href="component_modules_ltd_ltd.mjs.html#line40">line 40</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>s</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    <p>Bytes</p>
-</div>
-
-
-
-    
-
-
-
-        
-    
-
-    
-
-    
-</article>
-
-</section>
+    <h1 class="page-title">component_modules/router/Route.mjs</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import url from 'url-composer'
+
+class Route {
+  /**
+   * Create Route Instance
+   *
+   * @param {String} path
+   * @param {Function} cb
+   * @param {Array} middlewares
+   */
+  constructor (path, cb, middlewares) {
+    /**
+     * @property {String}
+     */
+    this.path = path
+
+    /**
+     * @property {Function}
+     */
+    this.cb = cb
+
+    /**
+     * @property {Array}
+     */
+    this.middlewares = middlewares
+  }
+
+  /**
+   * Run route
+   *
+   * @param {Object} from
+   * @param {Object} to
+   * @param {Object} params
+   * @param {*} response
+   */
+  run (from, to, params, response) {
+    this.cb({ from, to, params, response })
+  }
+
+  /**
+   * Validate url path
+   *
+   * @param {String} path
+   * @param {String} hash
+   *
+   * @return {Boolean}
+   */
+  validate (path, hash) {
+    return url.test(hash
+      ? { path: `/#/${this.path}`, url: `/#/${path}` }
+      : { path: this.path, url: path }
+    )
+  }
+}
+
+export default Route
+</code></pre>
+        </article>
+    </section>
 
 
 
